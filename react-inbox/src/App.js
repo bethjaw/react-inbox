@@ -1,8 +1,7 @@
-import React, { Component } from 'react';
+import React from 'react';
 import logo from './logo.svg';
 import './App.css';
 
-import Message from './components/Message';
 import MessageList from './components/MessageList';
 import Toolbar from './components/Toolbar';
 
@@ -70,16 +69,30 @@ const data = [
 
 
 class App extends React.Component {
+  constructor(props){
+    super(props)
+
+    this.state = {data}
+  }
+  
+  // toggleSelected()
+  //
+  // markAsRead()
+  //
+  // markAsUnread()
+
+
+
   render() {
     return (
-      <div className="App">
+      <div>
           <Toolbar />
-          <Message data={ data }/>
-          <MessageList data={ data }/>
+          <MessageList data={this.state.data}/>
       </div>
     );
   }
 }
+
 
 
 export default App;
