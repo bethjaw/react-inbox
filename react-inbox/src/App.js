@@ -4,6 +4,7 @@ import './App.css';
 
 import MessageList from './components/MessageList';
 import Toolbar from './components/Toolbar';
+import Compose from './components/Compose';
 
 
 const data = [
@@ -72,22 +73,21 @@ class App extends React.Component {
   constructor(props){
     super(props)
 
-    this.state = {data}
+    this.state = {
+      data: data
+    }
+
   }
-  
-  // toggleSelected()
-  //
-  // markAsRead()
-  //
-  // markAsUnread()
 
 
 
   render() {
+    // console.log(this.state.data)
     return (
       <div>
-          <Toolbar />
-          <MessageList data={this.state.data}/>
+          <Toolbar data={this.state.data} />
+          <Compose />
+          <MessageList data={this.state.data} />
       </div>
     );
   }

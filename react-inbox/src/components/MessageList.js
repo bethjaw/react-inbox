@@ -1,15 +1,18 @@
 import React from 'react';
-import Message from './Message'
+import Message from './Message';
 import Toolbar from './Toolbar';
 
 
-const MessageList = ({data}) => {
-  // console.log(data)
+const MessageList = (props) => {
+  // console.log(props.data)
     return(
     <div>
-      {data.map( data => <Message key={data.id} data={data} /> )}
+      {props.data.map((message) => {
+        return <Message
+          key={message.id}
+          message={message} />
+      })}
    </div>
-
    )
   }
 
