@@ -79,15 +79,37 @@ class App extends React.Component {
 
   }
 
+  handleStarred = (i) => {
+    let newData = this.state.data
+    newData[i].starred = !newData[i].starred
+    this.setState({data: newData})
+  }
+
+
+
+  handleSelected = (i) => {
+    let newData = this.state.data
+    newData[i].selected = !newData[i].selected
+    this.setState({data: newData})
+  }
+
+  // 
+  // handleSelect = () => {
+  //   let selected = this.state.data.filter((message) => !!message.selected).length
+  //
+  //
+  // }
 
 
   render() {
-    // console.log(this.state.data)
+    // console.log(this.state.data[1].selected)
     return (
       <div>
-          <Toolbar data={this.state.data} />
+          <Toolbar data={this.state.data} onSelect={this.handleSelect}/>
           <Compose />
-          <MessageList data={this.state.data} />
+          <MessageList
+            data={this.state.data}
+            toggleStar={this.handleStarred} toggleSelected={this.handleSelected} />
       </div>
     );
   }

@@ -8,9 +8,13 @@ const MessageList = (props) => {
     return(
     <div>
       {props.data.map((message) => {
+        // console.log(message.id)
         return <Message
           key={message.id}
-          message={message} />
+          message={message}
+          onStar={() => props.toggleStar(message.id-1)}
+          onSelect={() => props.toggleSelected(message.id-1)}
+        />
       })}
    </div>
    )

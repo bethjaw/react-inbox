@@ -8,25 +8,22 @@ class Message extends React.Component {
   // }
 
   render(){
-    console.log(this.props.message.starred)
+    // console.log(this.props.message.id)
 
     let isRead = 'row message'
     isRead += this.props.message.read === true
       ? ' read' : ' unread'
 
+    if(this.props.message.selected) {isRead += ' selected'}
+
+    // let isSelected = ''
+    // isSelected += this.props.message.selected
+    //   ? 'selected' : ''
+
     let isStarred = 'star fa '
     isStarred += this.props.message.starred === true
       ? 'fa-star' : 'fa-star-o'
 
-
-    let isSelected = ''
-    isSelected += this.props.message.selected
-      ? 'selected' : ''
-
-
-    // toggleStar = () => {
-    //   this.props.message.starred
-    // }
 
     return(
       <div>
@@ -34,10 +31,10 @@ class Message extends React.Component {
              <div className="col-xs-1">
                <div className="row">
                  <div className="col-xs-2">
-                   <input type="checkbox" defaultChecked={isSelected}/>
+                   <input type="checkbox" onChange={this.props.onSelect} checked={this.props.message.selected}/>
                  </div>
                  <div className="col-xs-2">
-                   <i className={isStarred}></i>
+                   <i className={isStarred} onClick={this.props.onStar}></i>
                  </div>
                </div>
            </div>
