@@ -53,7 +53,7 @@ class Message extends React.Component {
                  {this.props.message.subject}
                </a>
               </div>
-            </div>
+          </div>
       </div>
     )
   }
