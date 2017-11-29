@@ -83,7 +83,6 @@ class App extends React.Component {
       const response = await fetch('https://react-inbox.herokuapp.com/api/messages')
       const json = await response.json()
       this.setState({data: json._embedded.messages})
-      console.log('didmount', this.state.data);
     }
 
 

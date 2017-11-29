@@ -7,17 +7,25 @@ class Message extends React.Component {
   //   super(props)
   // }
 
+  isSelected(str){
+    if(this.props.message.selected){
+      return str
+    } else {
+      return ""
+    }
+  }
+
   render(){
 
     let isRead = 'row message'
     isRead += this.props.message.read === true
       ? ' read' : ' unread'
 
-    let isSelected = ''
-    isSelected += this.props.message.selected
+    let selected = ''
+    selected += this.props.message.selected
       ? 'selected' : ''
 
-    if(isSelected) {isRead += ' selected'}
+    if(selected) {isRead += ' selected'}
 
     let isStarred = 'star fa '
     isStarred += this.props.message.starred === true
@@ -31,8 +39,7 @@ class Message extends React.Component {
                <div className="row">
                  <div className="col-xs-2">
                    <input type="checkbox" onChange={this.props.onSelect}
-                    //  checked={this.props.isSelected}
-                    //  checked={this.props.message.selected}
+                    checked={this.isSelected('checked')}
                    />
                  </div>
                  <div className="col-xs-2">
