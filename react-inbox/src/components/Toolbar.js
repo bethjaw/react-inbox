@@ -7,12 +7,6 @@ class Toolbar extends React.Component {
     super(props)
   }
 
-
-// <i class="fa fa-minus-square-o"></i> some messages selected
-//  <i class="fa fa-check-square-o"></i> all messages selected
-//  <i class="fa fa-square-o"></i> no messages selected
-
-
 selectStatus () {
     switch(this.props.status){
       case 'all':
@@ -24,7 +18,6 @@ selectStatus () {
         return 'fa fa-square-o'
     }
   }
-
 
 render(){
   // console.log(this.props.status)
@@ -44,9 +37,9 @@ render(){
           <i className={this.selectStatus()}/>
           </button>
 
-          <button className="btn btn-default">Mark As Read</button>
+          <button className="btn btn-default" onClick={this.props.onClickRead}>Mark As Read</button>
 
-          <button className="btn btn-default">Mark As Unread</button>
+          <button className="btn btn-default" onClick={this.props.onClickUnread}>Mark As Unread</button>
 
           <select className="form-control label-select">
             <option>Apply label</option>
@@ -70,8 +63,6 @@ render(){
     )
   }
 }
-
-
 
 
 export default Toolbar

@@ -32,7 +32,7 @@ class Message extends React.Component {
                  <div className="col-xs-2">
                    <input type="checkbox" onChange={this.props.onSelect}
                     //  checked={this.props.isSelected}
-                     checked={this.props.message.selected}
+                    //  checked={this.props.message.selected}
                    />
                  </div>
                  <div className="col-xs-2">
@@ -41,7 +41,7 @@ class Message extends React.Component {
                </div>
            </div>
            <div className="col-xs-11">
-             {/* {this.props.message.labels.map(label => <span className="label label-warning">{label}</span>)} */}
+             {this.props.message.labels.map((label) => <span key={label.toString()} value={label} className="label label-warning">{label}</span>)}
                 <a href="#">
                  {this.props.message.subject}
                </a>
