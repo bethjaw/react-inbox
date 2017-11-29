@@ -3,15 +3,31 @@ import React from 'react';
 
 class Toolbar extends React.Component {
 
-onSelect(){
-  
-}
+  constructor(props){
+    super(props)
+  }
+
 
 // <i class="fa fa-minus-square-o"></i> some messages selected
 //  <i class="fa fa-check-square-o"></i> all messages selected
 //  <i class="fa fa-square-o"></i> no messages selected
 
+
+selectStatus () {
+    switch(this.props.status){
+      case 'all':
+        return 'fa fa-check-square-o'
+      case 'some':
+        return  'fa fa-minus-square-o'
+      case 'none':
+      default:
+        return 'fa fa-square-o'
+    }
+  }
+
+
 render(){
+  // console.log(this.props.status)
   return (
       <div className="row toolbar">
         <div className="col-md-12">
@@ -24,8 +40,8 @@ render(){
             <i className="fa fa-plus"></i>
           </a>
 
-          <button className="btn btn-default">
-            <i className="fa fa-minus-square-o"></i>
+          <button className="btn btn-default" onClick={this.props.onSelect}>
+          <i className={this.selectStatus()}/>
           </button>
 
           <button className="btn btn-default">Mark As Read</button>
@@ -54,9 +70,6 @@ render(){
     )
   }
 }
-
-
-
 
 
 

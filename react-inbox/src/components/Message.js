@@ -8,17 +8,16 @@ class Message extends React.Component {
   // }
 
   render(){
-    // console.log(this.props.message.id)
 
     let isRead = 'row message'
     isRead += this.props.message.read === true
       ? ' read' : ' unread'
 
-    if(this.props.message.selected) {isRead += ' selected'}
+    let isSelected = ''
+    isSelected += this.props.message.selected
+      ? 'selected' : ''
 
-    // let isSelected = ''
-    // isSelected += this.props.message.selected
-    //   ? 'selected' : ''
+    if(isSelected) {isRead += ' selected'}
 
     let isStarred = 'star fa '
     isStarred += this.props.message.starred === true
@@ -31,7 +30,10 @@ class Message extends React.Component {
              <div className="col-xs-1">
                <div className="row">
                  <div className="col-xs-2">
-                   <input type="checkbox" onChange={this.props.onSelect} checked={this.props.message.selected}/>
+                   <input type="checkbox" onChange={this.props.onSelect}
+                    //  checked={this.props.isSelected}
+                     checked={this.props.message.selected}
+                   />
                  </div>
                  <div className="col-xs-2">
                    <i className={isStarred} onClick={this.props.onStar}></i>
@@ -39,7 +41,7 @@ class Message extends React.Component {
                </div>
            </div>
            <div className="col-xs-11">
-             {this.props.message.labels.map(label => <span className="label label-warning">{label}</span>)}
+             {/* {this.props.message.labels.map(label => <span className="label label-warning">{label}</span>)} */}
                 <a href="#">
                  {this.props.message.subject}
                </a>

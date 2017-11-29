@@ -76,15 +76,54 @@ class App extends React.Component {
     this.state = {
       data: data
     }
-
   }
+
+  async componentDidMount(){
+    const response = await fetch('https://react-inbox.herokuapp.com/api/messages')
+    const json = await response.json()
+    this.setState({data: json._embedded.messages})
+  }
+
+
+  async createItem(message){
+    const response = await fetch('https://react-inbox.herokuapp.com/api/messages', {
+      method: 'POST',
+      body: JSON.stringify(message),
+      headers:{
+        'Content-Type': 'application/json',
+        'Accept': 'application/json',
+      }
+    })
+    const oneMessage = await response.json()
+    this.setState({data: [...this.state.data, oneMessage]})
+  }
+
+
+  async updateThing(thing){
+    const response = await fetch('https://react-inbox.herokuapp.com/api/messages', {
+      method: 'PATCH',
+      body: JSON.stringify(thing),
+      headers:{
+        'Content-Type': 'application/json',
+        'Accept': 'application/json',
+      }
+    })
+  }
+
 
   handleStarred = (i) => {
+    const updateStar = {
+      "messageIds": [],
+      "command": "star",
+      "star": true
+      }
     let newData = this.state.data
     newData[i].starred = !newData[i].starred
+    updateStar.messageIds.push(newData[i].id)
+    updateStar.star = newData[i].starred
+    this.updateThing(updateStar)
     this.setState({data: newData})
   }
-
 
 
   handleSelected = (i) => {
@@ -93,23 +132,57 @@ class App extends React.Component {
     this.setState({data: newData})
   }
 
-  // 
-  // handleSelect = () => {
-  //   let selected = this.state.data.filter((message) => !!message.selected).length
-  //
-  //
-  // }
+
+  handleSelect = () => {
+    let dataSelect = this.state.data
+    let counter = 0
+
+    for(var i=0; i < dataSelect.length; i++){
+      if(dataSelect[i].selected === true){
+        counter++
+      } else if (dataSelect[i].selected === false || dataSelect[i].selected == null){
+        dataSelect[i].selected = true
+      }
+
+      if(counter === dataSelect.length){
+        for(var j=0; j < dataSelect.length; j++){
+          dataSelect[j].selected = false
+        }
+      }
+      this.setState({data: dataSelect})
+    }
+    // console.log("this was clicked");
+  }
+
+
+  getSelectStatus () {
+      const selected= this.state.data.filter((message) => !!message.selected).length
+      switch(selected) {
+        case 0:
+          return 'none'
+        case this.state.data.length:
+          return 'all'
+        default:
+          return 'some'
+      }
+    }
 
 
   render() {
-    // console.log(this.state.data[1].selected)
+
     return (
       <div>
-          <Toolbar data={this.state.data} onSelect={this.handleSelect}/>
+          <Toolbar
+            data={this.state.data}
+            status={this.getSelectStatus()}
+            onSelect={this.handleSelect}
+          />
           <Compose />
           <MessageList
             data={this.state.data}
-            toggleStar={this.handleStarred} toggleSelected={this.handleSelected} />
+            toggleStar={this.handleStarred}
+            toggleSelected={this.handleSelected}
+          />
       </div>
     );
   }

@@ -12,7 +12,7 @@ const Compose = () => {
       <div className="form-group">
         <label htmlFor="subject" className="col-sm-2 control-label">Subject</label>
         <div className="col-sm-8">
-          <input type="text" className="form-control" id="subject" placeholder="Enter a subject" name="subject" />
+          <input type="text" className="form-control" id="subject" placeholder="Enter a subject" name="subject"/>
         </div>
       </div>
       <div className="form-group">
