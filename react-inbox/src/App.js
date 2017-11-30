@@ -220,6 +220,7 @@ class App extends React.Component {
   deleteMessage = () => {
     let newData = this.state.data
     let messageIds = []
+    let renderData = []
 
     const trash = {
     "messageIds": messageIds,
@@ -232,10 +233,16 @@ class App extends React.Component {
       }
     }
 
-    this.updateMessage(trash, newData)
-    this.setState({data: newData})
-  }
+    for(var i=0; i < newData.length; i++){
+      if(newData[i].selected !== true){
+        renderData.push(newData[i])
+        this.setState({data: renderData})
+      }
+    }
 
+    this.updateMessage(trash, renderData)
+
+  }
 
 
 renderComposeField(){
@@ -263,10 +270,19 @@ toggleCompose = () => {
     this.createItem(newMessage)
   }
 
+  unreadCount(){
+    let unreadData = this.state.data
+    let counter = 0
+    for(var i=0; i < unreadData.length; i++){
+      if(unreadData[i].read === false){
+        counter++
+      }
+    }
+    return counter
+  }
 
 
   render() {
-    // console.log(this.state.data)
     return (
       <div>
           <Toolbar
@@ -280,6 +296,7 @@ toggleCompose = () => {
             deleteMessage={this.deleteMessage}
             toggleCompose={this.toggleCompose}
             composing={this.state.composing}
+            unreadCount={this.unreadCount()}
           />
 
           {this.renderComposeField()}

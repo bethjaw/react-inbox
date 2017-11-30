@@ -3,9 +3,6 @@ import React from 'react';
 
 class Message extends React.Component {
 
-  // constructor(props){
-  //   super(props)
-  // }
 
   isSelected(str){
     if(this.props.message.selected){
