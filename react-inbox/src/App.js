@@ -236,12 +236,10 @@ class App extends React.Component {
     for(var i=0; i < newData.length; i++){
       if(newData[i].selected !== true){
         renderData.push(newData[i])
-        this.setState({data: renderData})
       }
     }
-
     this.updateMessage(trash, renderData)
-
+    this.setState({data: renderData})
   }
 
 
@@ -259,14 +257,12 @@ toggleCompose = () => {
 }
 
 
-  composeMessage = (e) => {
-    e.preventDefault()
-
-    const newMessage = {
-      "subject": e.target.subject.value,
-      "body": e.target.body.value
-    }
-
+composeMessage = (e) => {
+  e.preventDefault()
+  const newMessage = {
+    "subject": e.target.subject.value,
+    "body": e.target.body.value
+  }
     this.createItem(newMessage)
   }
 
