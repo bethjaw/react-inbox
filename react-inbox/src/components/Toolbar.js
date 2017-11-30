@@ -20,8 +20,6 @@ selectStatus () {
   }
 
 
-
-
 render(){
 
   return (

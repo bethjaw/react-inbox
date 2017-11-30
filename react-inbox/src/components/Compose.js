@@ -4,10 +4,11 @@ class Compose extends React.Component{
   constructor(props){
     super(props)
   }
+
   render() {
 
     return(
-      <form className="form-horizontal well" onSubmit={this.props.composeMessage}>
+      <form className="form-horizontal well" onSubmit={this.props.newMessage}>
         <div className="form-group">
           <div className="col-sm-8 col-sm-offset-2">
             <h4>Compose Message</h4>

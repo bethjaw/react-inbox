@@ -38,6 +38,20 @@ class App extends React.Component {
   }
 
 
+  async createItem(message){
+    const response = await fetch('https://react-inbox.herokuapp.com/api/messages', {
+        method: 'POST',
+        body: JSON.stringify(message),
+        headers:{
+          'Content-Type': 'application/json',
+          'Accept': 'application/json',
+        }
+      })
+      this.componentDidMount()
+    }
+
+
+
   handleStarred = (i) => {
     let newData = this.state.data
     newData[i].starred = !newData[i].starred
@@ -173,7 +187,6 @@ class App extends React.Component {
   }
 
 
-
   removeLabel = (e) => {
     let newData = this.state.data
     let messageIds = []
@@ -227,28 +240,16 @@ class App extends React.Component {
 
 renderComposeField(){
   if(this.state.composing){
-    return <Compose newMessage={this.composeMessage}/>
+    return <Compose newMessage={this.composeMessage.bind(this)}/>
   } else {
     return
   }
 }
 
+
 toggleCompose = () => {
   this.setState({composing: !this.state.composing})
 }
-
-
-  async createItem(message){
-    const response = await fetch('https://react-inbox.herokuapp.com/api/messages', {
-        method: 'POST',
-        body: JSON.stringify(message),
-        headers:{
-          'Content-Type': 'application/json',
-          'Accept': 'application/json',
-        }
-      })
-      this.componentDidMount()
-    }
 
 
   composeMessage = (e) => {
@@ -258,13 +259,14 @@ toggleCompose = () => {
       "subject": e.target.subject.value,
       "body": e.target.body.value
     }
+
     this.createItem(newMessage)
   }
 
 
 
   render() {
-    console.log(this.state.data)
+    // console.log(this.state.data)
     return (
       <div>
           <Toolbar
@@ -281,7 +283,7 @@ toggleCompose = () => {
           />
 
           {this.renderComposeField()}
-          
+
           <MessageList
             data={this.state.data}
             toggleStar={this.handleStarred}
