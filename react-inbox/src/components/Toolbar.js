@@ -20,8 +20,10 @@ selectStatus () {
   }
 
 
+
+
 render(){
-  // console.log(this.props.status)
+
   return (
       <div className="row toolbar">
         <div className="col-md-12">
@@ -30,7 +32,7 @@ render(){
             unread messages
           </p>
 
-          <a className="btn btn-danger">
+          <a className="btn btn-danger" onClick={this.props.toggleCompose}>
             <i className="fa fa-plus"></i>
           </a>
 
@@ -56,7 +58,7 @@ render(){
             <option value="gschool">gschool</option>
           </select>
 
-          <button className="btn btn-default">
+          <button className="btn btn-default" onClick={this.props.deleteMessage}>
             <i className="fa fa-trash-o"></i>
           </button>
         </div>

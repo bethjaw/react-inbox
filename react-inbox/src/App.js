@@ -12,12 +12,13 @@ class App extends React.Component {
     super(props)
 
     this.state = {
-      data: []
+      data: [],
+      composing: false
     }
   }
 
 
-    async componentDidMount(){
+  async componentDidMount(){
       const response = await fetch('https://react-inbox.herokuapp.com/api/messages')
       const json = await response.json()
       this.setState({data: json._embedded.messages})
@@ -60,6 +61,39 @@ class App extends React.Component {
     this.setState({data: newData})
   }
 
+
+  handleSelectAll = () => {
+    let dataSelect = this.state.data
+    let counter = 0
+
+    for(var i=0; i < dataSelect.length; i++){
+      if(dataSelect[i].selected === true){
+        counter++
+      } else if (dataSelect[i].selected === false || dataSelect[i].selected == null){
+        dataSelect[i].selected = true
+      }
+
+      if(counter === dataSelect.length){
+        for(var j=0; j < dataSelect.length; j++){
+          dataSelect[j].selected = false
+        }
+      }
+      this.setState({data: dataSelect})
+    }
+  }
+
+
+  getSelectStatus () {
+      const selected= this.state.data.filter((message) => !!message.selected).length
+      switch(selected) {
+        case 0:
+          return 'none'
+        case this.state.data.length:
+          return 'all'
+        default:
+          return 'some'
+      }
+    }
 
   markRead = () => {
     let newData = this.state.data
@@ -170,59 +204,67 @@ class App extends React.Component {
   }
 
 
+  deleteMessage = () => {
+    let newData = this.state.data
+    let messageIds = []
 
-
-  handleSelectAll = () => {
-    let dataSelect = this.state.data
-    let counter = 0
-
-    for(var i=0; i < dataSelect.length; i++){
-      if(dataSelect[i].selected === true){
-        counter++
-      } else if (dataSelect[i].selected === false || dataSelect[i].selected == null){
-        dataSelect[i].selected = true
-      }
-
-      if(counter === dataSelect.length){
-        for(var j=0; j < dataSelect.length; j++){
-          dataSelect[j].selected = false
-        }
-      }
-      this.setState({data: dataSelect})
+    const trash = {
+    "messageIds": messageIds,
+    "command": "delete"
     }
+
+    for(var i=0; i < newData.length; i++){
+      if(newData[i].selected === true){
+        messageIds.push(newData[i].id)
+      }
+    }
+
+    this.updateMessage(trash, newData)
+    this.setState({data: newData})
   }
 
 
-  getSelectStatus () {
-      const selected= this.state.data.filter((message) => !!message.selected).length
-      switch(selected) {
-        case 0:
-          return 'none'
-        case this.state.data.length:
-          return 'all'
-        default:
-          return 'some'
-      }
+
+renderComposeField(){
+  if(this.state.composing){
+    return <Compose newMessage={this.composeMessage}/>
+  } else {
+    return
+  }
+}
+
+toggleCompose = () => {
+  this.setState({composing: !this.state.composing})
+}
+
+
+  async createItem(message){
+    const response = await fetch('https://react-inbox.herokuapp.com/api/messages', {
+        method: 'POST',
+        body: JSON.stringify(message),
+        headers:{
+          'Content-Type': 'application/json',
+          'Accept': 'application/json',
+        }
+      })
+      this.componentDidMount()
     }
 
 
+  composeMessage = (e) => {
+    e.preventDefault()
 
-      // async createItem(message){
-      //   const response = await fetch('https://react-inbox.herokuapp.com/api/messages', {
-      //     method: 'POST',
-      //     body: JSON.stringify(message),
-      //     headers:{
-      //       'Content-Type': 'application/json',
-      //       'Accept': 'application/json',
-      //     }
-      //   })
-      //   const oneMessage = await response.json()
-      //   this.setState({data: [...this.state.data, oneMessage]})
-      // }
+    const newMessage = {
+      "subject": e.target.subject.value,
+      "body": e.target.body.value
+    }
+    this.createItem(newMessage)
+  }
 
 
 
   render() {
+    console.log(this.state.data)
     return (
       <div>
           <Toolbar
@@ -233,8 +275,13 @@ class App extends React.Component {
             onClickUnread={this.markUnread}
             applyLabel={this.addLabel}
             removeLabel={this.removeLabel}
+            deleteMessage={this.deleteMessage}
+            toggleCompose={this.toggleCompose}
+            composing={this.state.composing}
           />
-          <Compose />
+
+          {this.renderComposeField()}
+          
           <MessageList
             data={this.state.data}
             toggleStar={this.handleStarred}
